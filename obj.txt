@@ -1,0 +1,10 @@
+2000		 * 			LDA 		FIVE 		00
+2003		 * 			STA  		ALPHA 		0C2015
+2006		 * 			LDCH 		CHARZ 		50
+2009		 * 			STCH 		C1 		54
+2012		 * 			MOV 		A,B 		1D
+2015		 ALPHA 		RESW 		1
+2018		 FIVE 		WORD 		5 		000005
+2021		 CHARZ 		BYTE 		C'EOF' 		C'EOF'
+2022		 TEST 		WORD 		6 		000006
+2025		 C1 		RESB 		1

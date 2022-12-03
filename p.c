@@ -1,0 +1,80 @@
+#include<stdio.h>
+//#include<conio.h>
+#include<string.h>
+#include<ctype.h>
+void main()
+{
+FILE *f1,*f3,*f2,*f4,*f5;
+int op1[10],txtlen,txtlen1,i,j=0,len;
+char add[5],symadd[5],op[5],start[10],temp[30],line[20],label[20],mne[10],operand[10],symtab[10],opmne[10],leng[10];
+//clrscr();
+f1=fopen("inter.txt","r");
+f2=fopen("length.txt","r");
+f3=fopen("optab.txt","r");
+f4=fopen("symtab.txt","r");
+f5=fopen("reg.txt","w");
+fscanf(f2,"%s",leng);
+fscanf(f1,"%s\t%s\t%s",label,mne,operand);
+if(strcmp(mne,"START")==0)
+	{
+		fprintf(f5,"^H^%s  ^00%s^%s^\n",label,operand,leng);
+		fscanf(f1,"%s\t\t%s\t%s\t%s",add,label,mne,operand);
+	}
+	else
+	{
+		fprintf(f5,"^H^\n");
+		fscanf(f1,"%s\t\t%s\t%s\t%s",add,label,mne,operand);
+	}
+//fscanf(f1,"%s%s%s%s",add,label,mne,operand);
+while(strcmp(mne,"END")!=0)
+{
+    fscanf(f3,"%s%s",opmne,op);
+    while(!feof(f3))
+    {
+        if(strcmp(mne,opmne)==0)
+        {
+            //fclose(f3);
+            fscanf(f4,"%s%s",symadd,symtab);
+            while(!feof(f4))
+            {
+                if(strcmp(operand,symadd)==0)
+                {
+                    fprintf(f5,"^T^%s%s^",op,symtab);
+                    break;
+                }
+                else
+                    fscanf(f4,"%s%s",symadd,symtab);
+            }
+                break;
+        }
+        else
+            fscanf(f3,"%s%s",opmne,op);
+        }
+        if((strcmp(mne,"BYTE")==0)||(strcmp(mne,"WORD")==0))
+        {
+            if(strcmp(mne,"WORD")==0)
+                fprintf(f5,"0000%s^",operand);
+            else
+            {
+                len=strlen(operand);
+                    for(i=2;i<len;i++)
+                    {
+                        fprintf(f5,"%d",operand[i]);
+                    }
+                fprintf(f5,"^");
+            }
+        }
+        fscanf(f1,"%s%s%s%s",add,label,mne,operand);
+        f3=fopen("optab.txt","r");
+        fseek(f3,SEEK_SET,0);
+    }
+    fprintf(f5,"\nE^00%s",start);
+    fclose(f1);
+    fclose(f3);
+    fclose(f4);
+    fclose(f2);
+    fclose(f5);
+//fclose(fout);
+//getch();
+}
+ 
